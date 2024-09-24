@@ -4,6 +4,19 @@
     "tasks": [
 
         {
+            "label": "build-sandbox-counter",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/sandbox/counter/counter.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+
+        {
             "label": "build-sandbox-Sandbox",
             "command": "dotnet",
             "type": "process",

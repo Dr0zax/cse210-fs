@@ -4,6 +4,19 @@
     "configurations": [
 
         {
+            "name": "Counter Project",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-sandbox-counter",
+            "program": "${workspaceFolder}/sandbox/counter/bin/Debug/net8.0/counter.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/sandbox/counter",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "stopAtEntry": false
+        },
+
+        {
             "name": "Sandbox Project",
             "type": "coreclr",
             "request": "launch",

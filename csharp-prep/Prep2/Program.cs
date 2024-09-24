@@ -4,7 +4,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Please input grade percentage. ");
+        Console.Write("Please input grade percentage: ");
         int gradePercentage = int.Parse(Console.ReadLine());
         int lastDigit = gradePercentage % 10;
 
