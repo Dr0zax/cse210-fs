@@ -19,22 +19,32 @@ class Journal
         Console.Write("> ");
         
         string input = Console.ReadLine();
-        string timestamp = DateTime.Now.ToString();
-        Entry entry = new(timestamp, input);
-        Entry entry2 = new(timestamp, input);
-        Entry entry3 = new(timestamp, input);
+        string timestamp = DateTime.Now.ToShortDateString();
+        Entry entry = new(timestamp, prompt, input);
 
         entries.Add(entry);
     }
 
     public void SaveFile() 
     {
+        Console.WriteLine("Enter the name of the file (do not include file extention)");
+        Console.Write("> ");
+        string fileName = Console.ReadLine();
 
+        using (StreamWriter outputFile = new StreamWriter($"{fileName}.csv"))
+        {
+          foreach (Entry entry in entries)
+          {
+            outputFile.WriteLine(entry.getContents());
+          }
+        };
     }
 
     public void LoadFile()
     {
-        Console.WriteLine("Provide a file");
+        entries.Clear();
+
+        Console.WriteLine("Provide the file");
         Console.Write("> ");
 
         string fileName = Console.ReadLine();
@@ -42,24 +52,18 @@ class Journal
         string[] lines = readFile(fileName);
 
         foreach (string line in lines) {
-            string[] parts = line.Split(" | ");
-            Entry entry = new(parts[0], parts[1]); 
+            string[] parts = line.Split(",,");
+            string timestamp = parts[0];
+            string prompt = parts[1];
+            string content = parts[2];
+            Entry entry = new(timestamp, prompt, content); 
 
             entries.Add(entry);
         }
     }
     
     private string[] readFile(string fileName) {
-        try
-        {
-            string[] lines = System.IO.File.ReadAllLines(fileName);
-            return lines;
-        }
-        catch (System.IO.FileNotFoundException)
-        {
-            
-            throw;
-        }
-
+        string[] lines = System.IO.File.ReadAllLines(fileName);
+        return lines;
     }
 }
