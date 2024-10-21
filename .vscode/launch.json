@@ -4,6 +4,18 @@
     "configurations": [
 
         {
+            "name": "Till Project",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-sandbox-till",
+            "program": "${workspaceFolder}/sandbox/till/bin/Debug/net8.0/till.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/sandbox/till",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "stopAtEntry": false
+        },
+        {
             "name": "Counter Project",
             "type": "coreclr",
             "request": "launch",

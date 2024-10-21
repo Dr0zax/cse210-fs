@@ -4,6 +4,10 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello Develop03 World!");
+        Scripture scripture = new("And my father dwelt in a tent.", "1 Nephi", "2", "15");
+        
+        scripture.Display();
+        Console.WriteLine();
+        scripture.Display();
     }
 }

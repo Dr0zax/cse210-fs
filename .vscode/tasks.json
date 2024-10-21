@@ -4,12 +4,12 @@
     "tasks": [
 
         {
-            "label": "build-sandbox-counter",
+            "label": "build-sandbox-till",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/sandbox/counter/counter.csproj",
+                "${workspaceFolder}/sandbox/till/till.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
