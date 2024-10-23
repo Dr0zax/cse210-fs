@@ -1,7 +1,7 @@
 class Word
 {
-    public string _word;
-    public bool _hidden = false;
+    private string _word;
+    private bool _hidden = false;
 
     public Word(string word)
     {
@@ -31,7 +31,7 @@ class Word
         }
         else
         {
-            string hiddenWord = "_";
+            string hiddenWord = "";
             foreach (char letter in _word)
             {
                 hiddenWord += "_";

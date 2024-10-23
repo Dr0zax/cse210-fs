@@ -1,9 +1,9 @@
 class Reference
 {
-    public string _book;
-    public string _chapter;
-    public string _verse;
-    public string _verseEnd;
+    private string _book;
+    private string _chapter;
+    private string _verse;
+    private string _verseEnd;
 
     public Reference(string book, string chapter, string verse)
     {

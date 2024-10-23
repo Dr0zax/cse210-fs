@@ -1,25 +1,26 @@
 class Scripture
 {
-    public string _scripture;
-    public List<Word> _wordList = new();
-    public bool _isFullyHidden = false;
-    public Reference _reference;
+    private List<Word> _wordList = new();
+    private bool _isFullyHidden = false;
+    private int _hiddenCount = 0;
+    private string _scripture;
+    private Reference _reference;
 
-    public Scripture(string scripture, string book, string chapter, string verse) 
+    public Scripture(string scripture, string book, string chapter, string verse)
     {
         _scripture = scripture;
         _reference = new(book, chapter, verse);
         GenerateWordList();
     }
 
-    public Scripture(string scripture, string book, string chapter, string verse, string verseEnd) 
+    public Scripture(string scripture, string book, string chapter, string verse, string verseEnd)
     {
         _scripture = scripture;
         _reference = new(book, chapter, verse, verseEnd);
         GenerateWordList();
     }
 
-    public void GenerateWordList()
+    private void GenerateWordList()
     {
         string[] splitScripture = _scripture.Split(" ");
         foreach (string word in splitScripture)
@@ -29,29 +30,45 @@ class Scripture
         }
     }
 
-    private void ChooseRandomWords()
+    private void ChooseRandomWord()
     {
-        Random random = new();
-
-        for (int i = 0; i <= 3; i++)
+        if (_hiddenCount == _wordList.Count())
         {
-            int word = random.Next(_wordList.Count());
-            if (!_wordList[word].IsHidden())
-            {
-                _wordList[word].Hide();
-            }
+            _isFullyHidden = true;
+        }
+
+        Random random = new();
+        int word = random.Next(_wordList.Count());
+        if (!_wordList[word].IsHidden())
+        {
+            _wordList[word].Hide();
+            _hiddenCount += 1;
+        }
+        else if (!_isFullyHidden)
+        {
+            ChooseRandomWord();
         }
     }
 
     public void Display()
     {
-        ChooseRandomWords();
-
-        Console.Write(_reference.GetReference() + " ");
-        foreach (Word word in _wordList)
+        if (!_isFullyHidden)
         {
+            for (int i = 1; i <= 3; i++)
+            {
+                ChooseRandomWord();
+            }
 
-            Console.Write(word.GetWord() + " ");
+            Console.WriteLine(_reference.GetReference());
+            foreach (Word word in _wordList)
+            {
+                Console.Write(word.GetWord() + " ");
+            }
         }
+    }
+
+    public bool IsFullyHidden()
+    {
+        return _isFullyHidden;
     }
 }
