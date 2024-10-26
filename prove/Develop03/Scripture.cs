@@ -50,11 +50,12 @@ class Scripture
         }
     }
 
-    public void Display()
+    public void Display(int amountHidden)
     {
+        amountHidden = Math.Clamp(amountHidden, 1, _wordList.Count());
         if (!_isFullyHidden)
         {
-            for (int i = 1; i <= 3; i++)
+            for (int i = 1; i <= amountHidden; i++)
             {
                 ChooseRandomWord();
             }
@@ -64,6 +65,7 @@ class Scripture
             {
                 Console.Write(word.GetWord() + " ");
             }
+            Console.WriteLine();
         }
     }
 
