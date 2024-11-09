@@ -2,7 +2,7 @@ using System.Diagnostics;
 
 class ReflectionActivity : Activity
 { 
-    private int _interval = 1000;
+    private int _interval = 10000;
 
     private List<string> _prompts = [
         "Think of a time when you stood up for someone else.",
@@ -34,17 +34,27 @@ class ReflectionActivity : Activity
         Stopwatch stopwatch = new();
         DisplayWelcome();
         int time = getTime();
+        
+        Console.Clear();
 
-        Console.WriteLine("\nGet ready...");
-        AnimationSpinner("", 2000);
+        Console.WriteLine("Consider the following prompt:");
 
-        Console.WriteLine(_prompts[random.Next(_prompts.Count)]);
+        Console.WriteLine(_prompts[random.Next(_prompts.Count)] + "\n");
+
+        Console.WriteLine("When you are ready to continue press enter.");
+        Console.ReadLine();
+
+        Console.WriteLine("Now read each of the following questions and ponder them.");
+
+        AnimationCounter("You may begin: ", 5000, true);
+
+        Console.Clear();
+
         stopwatch.Start();
 
         while (stopwatch.Elapsed < TimeSpan.FromSeconds(time))
         {
-            Console.Write("> ");
-            Console.ReadLine();
+            AnimationSpinner(_questions[random.Next(_questions.Count)] + " ", _interval);
         }
 
         stopwatch.Stop();

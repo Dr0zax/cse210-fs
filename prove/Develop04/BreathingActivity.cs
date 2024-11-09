@@ -15,22 +15,20 @@ class BreathingActivity : Activity
         DisplayWelcome();
         int time = getTime();
 
-        Console.WriteLine("\nGet ready...");
-        AnimationSpinner("", 2000);
+        Console.WriteLine();
 
         stopwatch.Start();
 
         while (stopwatch.Elapsed < TimeSpan.FromSeconds(time))
         {
-            AnimationCounter("Breath In...", _interval);
+            AnimationCounter("Breath In...", _interval, false);
             Console.WriteLine();
-            AnimationCounter("Breath Out...", _interval);
+            AnimationCounter("Breath Out...", _interval, false);
             Console.WriteLine();
         }
 
         stopwatch.Stop();
         
         DisplayEnding();
-        AnimationSpinner("", _interval);
     }
 }

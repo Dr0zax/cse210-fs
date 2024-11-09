@@ -17,20 +17,28 @@ class Activity
 
         Console.Write("How long, in seconds, would you like for your session? ");
         _time = int.Parse(Console.ReadLine());
+
+        AnimationSpinner("\nGet ready...", 5000);
     }
 
     public void DisplayEnding()
     {
-        Console.WriteLine("Well done!\n");
-        Console.WriteLine($"You have completed another {_time} seconds of the {_name}");
+        AnimationSpinner("Well done!", 5000);
+        AnimationSpinner($"\nYou have completed another {_time} seconds of the {_name}", 5000);
     }
 
-    public void AnimationCounter(string baseMessage, int interval)
+    public void AnimationCounter(string baseMessage, int interval, bool countReverse)
     {
         Console.Write($"{baseMessage}");
         for (int i = 1; i <= (interval / 1000); i++)
         {
-            Console.Write($"{i}");
+            if (countReverse)
+            {
+                Console.Write($"{(interval / 1000) + 1 - i}");   
+            } else
+            {
+                Console.Write($"{i}");
+            }
             Thread.Sleep(1000);
             Console.Write("\b \b");
         }
