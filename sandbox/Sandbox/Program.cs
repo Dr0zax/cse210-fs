@@ -4,16 +4,16 @@ class Program
 {
     static void Main(string[] args)
     {
-       // Console.WriteLine("Hello Sandbox World!");
-        Costume nurse = new(
-            "face mask",
-            "latex gloves",
-            "orthopedic sneakers",
-            "scrubs",
-            "scrubs",
-            "stethoscope"
-        ); 
+       LevelSystem levelSystem = new();
 
-        nurse.ShowWardobe();
+       string input = "";
+
+       while (input != "quit")
+       {
+            Console.Clear();
+            levelSystem.GenerateLevelBar();
+            input = Console.ReadLine();
+            levelSystem.AddXP(1);
+       }
     }  
 }
