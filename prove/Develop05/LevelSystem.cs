@@ -66,15 +66,15 @@ class LevelSystem
         string barSection = "█";
         int barSize = 20;
         
-        // Mapping the xp to level threshold value to 0 through 1
+        // Mapping the xp to level ratio bewteen 0 and 1
         double mapped = (double)_xp / (double)_levelThreshhold;
 
         // The amount of xp each section of the bar represents
-        double sectionSize = Math.Floor(mapped * barSize);
+        double sections = Math.Floor(mapped * barSize);
 
         for (int i = 0; i<barSize; i++)
         {
-            if (i < sectionSize) 
+            if (i < sections) 
             {
                 bar += barSection;
             } 
