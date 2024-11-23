@@ -4,7 +4,6 @@ class LevelSystem
     private int _level;
     private int _levelThreshhold;
 
-    // New save
     public LevelSystem()
     {
         _xp = 0;
@@ -12,12 +11,14 @@ class LevelSystem
         _levelThreshhold = NextLevel(_level);
     }
 
-    // For loading from a save
-    public LevelSystem(int xp, int level)
+    public int GetXP()
+    {
+        return _xp;
+    }
+
+    public void SetXP(int xp)
     {
         _xp = xp;
-        _level = level;
-        _levelThreshhold = NextLevel(_level);
     }
 
     public void AddXP(int xp)
@@ -35,10 +36,21 @@ class LevelSystem
 
     }
 
+    public int GetLevel()
+    {
+        return _level;
+    }
+
+    public void SetLevel(int level)
+    {
+        _level = level;
+        _levelThreshhold = NextLevel(level);
+    }
+
     // Calculates how much xp in needed to reach the next level
     private int NextLevel(int level)
     {
-        return (int)Math.Round(0.04 * Math.Pow(level, 3) + 0.08 * Math.Pow(level, 2) + level * 2);
+        return (int)Math.Round(0.01 * Math.Pow(level, 3) + 0.02 * Math.Pow(level, 2) + level * 2);
     }
 
     private void LevelUp()
@@ -72,7 +84,6 @@ class LevelSystem
             }
         }
         
-        Console.WriteLine($"LVL: {_level} [{bar}] XP: {_xp}/{_levelThreshhold}");
+        Console.WriteLine($"LVL: {_level} [{bar}] XP: {_xp}/{_levelThreshhold}\n");
     }
-
 }

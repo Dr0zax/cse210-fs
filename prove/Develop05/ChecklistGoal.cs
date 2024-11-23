@@ -2,11 +2,18 @@ public class ChecklistGoal : Goal
 {
     private int _bonusValue;
     private int _requirement;
-    private int _timesCompleted = 0;
+    private int _timesCompleted;
 
-    public ChecklistGoal() : base()
+    public ChecklistGoal(string type) : base(type)
     {
+        _timesCompleted = 0;
+    }
 
+    public ChecklistGoal(string type, string name, string description, int value, int bonusValue, int requirement, int timesCompleted, bool completed) : base(type, name, description, value, completed)
+    {
+        _bonusValue = bonusValue;
+        _requirement = requirement;
+        _timesCompleted = timesCompleted;
     }
 
     public override void GoalPrompt()
@@ -30,9 +37,15 @@ public class ChecklistGoal : Goal
         return _requirement;
     }
 
+    public int GetBonusValue()
+    {
+        return _bonusValue;
+    }
+
     public override int Complete()
     {
         _timesCompleted++;
+
         if (_timesCompleted != _requirement)
         {
             return GetValue();
@@ -40,8 +53,19 @@ public class ChecklistGoal : Goal
         else
         {
             // _timesCompleted--;
-            SetComplete(true);
+            SetCompleted(true);
             return _bonusValue + GetValue();
         }
+    }
+
+    public override string Serialize()
+    {
+        //CHECKLIST GOAL FORMAT
+        //type,name,description,value,bonusValue,requirement,timesCompleted,complete
+        return $"{GetGoalType()},{GetName()},{GetDescription()},{GetValue()},{GetBonusValue()},{GetRequirement()},{GetTimesCompleted()},{GetCompleted()}";
+    }
+    public override string ToString()
+    {
+        return $"{GetName()} ({GetDescription()}) -- Currently Completed {GetTimesCompleted()}/{GetRequirement()}";
     }
 }

@@ -1,18 +1,24 @@
 class Program
 {
-    static void Menu()
+    static List<string> menu = [
+        "Menu Options:",
+        "1. Create new goal",
+        "2. List goals",
+        "3. Save goals",
+        "4. Load goals",
+        "5. Record Event",
+        "6. Quit\n",
+    ];
+
+    static List<string> subMenu = [
+        "The types of goals are:",
+        "1. Simple Goal",
+        "2. Eternal Goal",
+        "3. Checklist Goal\n"
+    ];
+
+    static void DisplayMenu(List<string> menu)
     {
-        List<string> menu = [
-            "1. Create new goal",
-            "2. List goals",
-            "3. Save goals",
-            "4. Load goals",
-            "5. Record Event",
-            "6. Quit",
-        ];
-
-        Console.WriteLine("\nMenu Options:");
-
         foreach (string item in menu)
         {
             Console.WriteLine(item);
@@ -22,15 +28,17 @@ class Program
     static void Main(string[] args)
     {
         List<Goal> goals = new();
-
-        bool running = true;
         LevelSystem levelSystem = new();
+        FileSystem fileSystem = new();
     
         Console.Clear();
+
+        bool running = true;
         while (running)
         {
             levelSystem.GenerateLevelBar();
-            Menu();
+        
+            DisplayMenu(menu);
 
             Console.Write("> ");
             int input = int.Parse(Console.ReadLine());
@@ -38,10 +46,7 @@ class Program
             {
                 case 1:
                     Console.Clear();
-                    Console.WriteLine("The types of goals are:");
-                    Console.WriteLine("1. Simple Goal");
-                    Console.WriteLine("2. Eternal Goal");
-                    Console.WriteLine("3. Checklist Goal");
+                    DisplayMenu(subMenu);
                     
                     Console.Write("> ");
                     input = int.Parse(Console.ReadLine());
@@ -49,15 +54,15 @@ class Program
                     switch (input)
                     {
                         case 1:
-                            Goal simpleGoal = new SimpleGoal();
+                            Goal simpleGoal = new SimpleGoal("simple");
                             goals.Add(simpleGoal);
                             break;
                         case 2:
-                            Goal eternalGoal = new EternalGoal();
+                            Goal eternalGoal = new EternalGoal("eternal");
                             goals.Add(eternalGoal);
                             break;
                         case 3:
-                            Goal checklistGoal = new ChecklistGoal();
+                            Goal checklistGoal = new ChecklistGoal("checklist");
                             goals.Add(checklistGoal);
                             break;
                         default:
@@ -72,35 +77,52 @@ class Program
                     foreach (Goal goal in goals)
                     {
                         string state = " ";
-                        if (goal.GetComplete() == true) { state = "X"; }
-                        if (goal is ChecklistGoal cGoal)
-                        {
-                            Console.WriteLine($"{goals.IndexOf(goal) + 1}. [{state}] {goal.getName()} ({goal.getDescription()}) -- Currently Completed {cGoal.GetTimesCompleted()}/{cGoal.GetRequirement()}");
-                        }
-                        else
-                        {
-                            Console.WriteLine($"{goals.IndexOf(goal) + 1}. [{state}] {goal.getName()} ({goal.getDescription()})");
-                        }
+                        if (goal.GetCompleted() == true) { state = "X"; }
+                        Console.WriteLine($"{goals.IndexOf(goal) + 1}. [{state}] {goal}");   
                     }
                     Console.WriteLine();
                     break;
                 case 3:
+                    Console.Clear();
+                    Console.Write("What shall the name of the file be? ");
+                    string fileName = Console.ReadLine();
+                    fileSystem.SaveFile(fileName, levelSystem, goals);
                     break;
                 case 4:
-                    break;
+                    Console.Clear();
+                    Console.Write("This will clear all your current goals, continue? (y/n) ");
+                    string choice = Console.ReadLine();
+
+                    if (choice == "y")
+                    {
+                        Console.Clear();
+                        goals.Clear();
+                        Console.Write("Which file would you like to load? ");
+                        string fileToLoad = Console.ReadLine();
+                        fileSystem.LoadFile(fileToLoad, levelSystem, goals);
+                        Console.Clear();
+                        break;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 case 5:
                     Console.Clear();
                     Console.WriteLine("Your goals:");
                     foreach (Goal goal in goals)
                     {
-                        Console.WriteLine($"{goals.IndexOf(goal) + 1}. {goal.getName()} ({goal.getDescription()})");
+                        Console.WriteLine(goal);
                     }
+
                     Console.Write("Which goal did your complete? ");
                     
-                    int choice = int.Parse(Console.ReadLine());
-                    int value = goals[choice-1].Complete();
+                    int choice2 = int.Parse(Console.ReadLine());
+                    int value = goals[choice2-1].Complete();
+
                     levelSystem.AddXP(value);
                     Console.Clear();
+
                     Console.WriteLine($"Your earned {value} points.");
                     Console.WriteLine();
                     break;

@@ -1,14 +1,35 @@
 public abstract class Goal 
 {
+    private string _type;
     private int _value;
     private string _name;
     private string _description;
 
-    private bool _isComplete = false;
+    private bool _completed = false;
 
-    public Goal()
+    public Goal(string type)
     {
+        _type = type;
         GoalPrompt();
+    }
+
+    public Goal(string type, string name, string description, int value, bool completed)
+    {
+        _type = type;
+        _name = name;
+        _description = description;
+        _value = value;
+        _completed = completed;
+    }
+
+    public string GetGoalType()
+    {
+        return _type;
+    }
+
+    public void SetGoalType(string type)
+    {
+        _type = type;
     }
 
     public int GetValue()
@@ -16,39 +37,39 @@ public abstract class Goal
         return _value;
     }
 
-    public void setValue(int value)
+    public void SetValue(int value)
     {
         _value = value;
     }
 
-    public string getName()
+    public string GetName()
     {
         return _name;
     }
 
-    public void setName(string name)
+    public void SetName(string name)
     {
         _name = name;
     }
 
-    public string getDescription()
+    public string GetDescription()
     {
         return _description;
     }
 
-    public void setDescription(string description)
+    public void SetDescription(string description)
     {
         _description = description;
     }
 
-    public bool GetComplete()
+    public bool GetCompleted()
     {
-        return _isComplete;
+        return _completed;
     }
 
-    public void SetComplete(bool state)
+    public void SetCompleted(bool state)
     {
-        _isComplete = state;
+        _completed = state;
     }
 
     public virtual void GoalPrompt()
@@ -64,4 +85,6 @@ public abstract class Goal
     }
 
     public abstract int Complete();
+
+    public abstract string Serialize();
 }
