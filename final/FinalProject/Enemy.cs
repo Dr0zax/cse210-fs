@@ -1,9 +1,6 @@
 class Enemy : Character
 {
-    private int _xpReward;
-    private int _lvl;
-
-    public Enemy()
+    public Enemy(int lvl) : base(lvl)
     {
         
     }

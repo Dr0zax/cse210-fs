@@ -1,11 +1,13 @@
 class LevelSystem
 {
-    private int _xp = 0;
-    private int _lvl = 1;
+    private int _xp;
+    private int _lvl;
     private int _nextLvl;
 
     public LevelSystem()
     {
+        _xp = 0;
+        _lvl = 1;
         _nextLvl = NextLvl(_lvl);
     }
 
