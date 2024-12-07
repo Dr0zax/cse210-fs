@@ -1,4 +1,4 @@
-class Character
+abstract class Character
 {
     private LevelSystem _levelSystem = new();
 
@@ -13,17 +13,27 @@ class Character
     private int _baseDefense;
 
     //for creating a player
-    public Character(int xp, int lvl)
+    public Character(int xp, int lvl, int baseHP, int baseAttack, int baseDefense)
     {
         _levelSystem.SetLevel(lvl);
         _levelSystem.SetXP(xp);
+
+        _baseHP = baseHP;
+        _baseAttack = baseAttack;
+        _baseDefense = baseDefense;
+
         CalcStats();
     }
 
     //for creating and enemy
-    public Character(int lvl)
+    public Character(int lvl, int baseHP, int baseAttack, int baseDefense)
     {
         _levelSystem.SetLevel(lvl);
+
+        _baseHP = baseHP;
+        _baseAttack = baseAttack;
+        _baseDefense = baseDefense;
+
         CalcStats();
     }
 
@@ -59,7 +69,7 @@ class Character
 
     public int GetBaseHP()
     {
-        return _baseDefense;
+        return _baseHP;
     }
 
     public void SetBaseHP(int hp)
@@ -87,6 +97,10 @@ class Character
         _baseDefense = defense;
     }
 
+    public int GetLvl()
+    {
+        return _levelSystem.GetLvl();
+    }
 
     public void TakeDamage(int damage)
     {
@@ -110,7 +124,7 @@ class Character
         return 0;
     }
 
-    public void CalcStats()
+    public virtual void CalcStats()
     {
         int lvl = _levelSystem.GetLvl();
         int baseAttack = GetBaseAttack();
@@ -125,4 +139,6 @@ class Character
         SetHP(hp);
         SetDefense(defense);
     }
+
+    public abstract void Die();
 }

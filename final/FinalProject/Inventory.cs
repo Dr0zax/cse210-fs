@@ -1,6 +1,6 @@
 class Inventory {
     private List<Item> _inventory = new();
-    // private int _size = 20;
+    private int _size = 20;
 
     public Inventory()
     {
