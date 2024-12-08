@@ -40,7 +40,7 @@ class LevelSystem
     public void LevelUp()
     {
         SetXP(0);
-        SetLevel(_lvl++);
+        SetLevel(_lvl+1);
         _nextLvl = NextLvl(_lvl);
     }
 

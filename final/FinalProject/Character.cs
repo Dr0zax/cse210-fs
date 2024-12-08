@@ -2,6 +2,7 @@ abstract class Character
 {
     private LevelSystem _levelSystem = new();
 
+    private string _name;
     //STATS
     private int _hp;
     private int _attack;
@@ -13,7 +14,7 @@ abstract class Character
     private int _baseDefense;
 
     //for creating a player
-    public Character(int xp, int lvl, int baseHP, int baseAttack, int baseDefense)
+    public Character(int xp, int lvl, int baseHP, int baseAttack, int baseDefense, string name)
     {
         _levelSystem.SetLevel(lvl);
         _levelSystem.SetXP(xp);
@@ -21,18 +22,20 @@ abstract class Character
         _baseHP = baseHP;
         _baseAttack = baseAttack;
         _baseDefense = baseDefense;
+        _name = name;
 
         CalcStats();
     }
 
     //for creating and enemy
-    public Character(int lvl, int baseHP, int baseAttack, int baseDefense)
+    public Character(int lvl, int baseHP, int baseAttack, int baseDefense, string name)
     {
         _levelSystem.SetLevel(lvl);
 
         _baseHP = baseHP;
         _baseAttack = baseAttack;
         _baseDefense = baseDefense;
+        _name = name;
 
         CalcStats();
     }
@@ -97,9 +100,19 @@ abstract class Character
         _baseDefense = defense;
     }
 
-    public int GetLvl()
+    public string GetName()
     {
-        return _levelSystem.GetLvl();
+        return _name;
+    }
+
+    public void SetName(string name)
+    {
+        _name = name;
+    }
+
+    public LevelSystem GetLvlSystem()
+    {
+        return _levelSystem;
     }
 
     public void TakeDamage(int damage)
@@ -118,10 +131,11 @@ abstract class Character
             SetHP(0);
         }
     }
-    public int Attack(Character attacked)
+    public void Attack(Character attacked)
     {
         int damage = GetAttack();
-        return 0;
+        attacked.TakeDamage(damage);
+        Console.WriteLine($"\n{attacked.GetName()} took {damage} damage!\n");
     }
 
     public virtual void CalcStats()
@@ -140,5 +154,5 @@ abstract class Character
         SetDefense(defense);
     }
 
-    public abstract void Die();
+    // public abstract void Die();
 }

@@ -1,7 +1,7 @@
 class Enemy : Character
 {
     private int _xpReward;
-    public Enemy(int lvl, int baseHP, int baseAttack, int baseDefense) : base(lvl, baseHP, baseAttack, baseDefense)
+    public Enemy(int lvl, int baseHP, int baseAttack, int baseDefense, string name) : base(lvl, baseHP, baseAttack, baseDefense, name)
     {
         
     }
@@ -20,14 +20,14 @@ class Enemy : Character
     {
         base.CalcStats();
 
-        int lvl = GetLvl();
+        int lvl = GetLvlSystem().GetLvl();
         int xpReward = (int)Math.Ceiling(10 + (lvl * 1.75));
         
         SetXpReward(xpReward);
     }
 
-    public override void Die()
-    {
-        // throw new NotImplementedException();
-    }
+    // public override void Die()
+    // {
+    //     // throw new NotImplementedException();
+    // }
 }

@@ -1,33 +1,16 @@
-using System;
+
 
 class Program
 {
     static void Main(string[] args)
     {
-        int consoleSizeWidth = Console.WindowWidth;
-        int consoleSizeHeight = Console.WindowHeight;
-        
-        Player player = new(0, 10);
-
         Console.Clear();
 
         TitleScreen();
 
-        bool running = true;
-        
-        while (running)
-        {
-            Console.Clear();
+        Game game = new();
 
-            Console.WriteLine($"Player HP: {player.GetHP()}");
-            Console.WriteLine($"Player Def: {player.GetDefense()}");
-
-            player.TakeDamage(10);
-
-            Console.SetCursorPosition(0, consoleSizeHeight - 1);
-            Console.Write("> ");
-            Console.ReadLine();
-        }
+        game.RunGame();
     }
 
     static void TitleScreen()
@@ -45,7 +28,7 @@ class Program
             "                                                              __/ |",
             "                                                             |___/ ",
             "",
-            "By Andrew Jeppesen",
+            "Andrew Jeppesen",
             "",
             "Press Enter to Begin"
         ];
@@ -59,7 +42,8 @@ class Program
         }
 
         Console.SetCursorPosition(0, consoleSizeHeight - 1);
-        Console.Write("> ");
         Console.ReadLine();
+        Console.Clear();
     }
+
 }
