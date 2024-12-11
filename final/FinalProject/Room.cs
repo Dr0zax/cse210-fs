@@ -56,10 +56,21 @@ class Room
 
     public bool IsClear()
     {
-        if (_enemies.Count() == 0)
+        int enemiesLength = _enemies.Count;
+        int clearedCount = 0;
+        foreach (Enemy enemy in _enemies)
+        {
+            if (enemy.GetIsDead() == true)
+            {
+                clearedCount++;
+            }
+        }
+
+        if (clearedCount == enemiesLength)
         {
             return true;
-        } else
+        }
+        else
         {
             return false;
         }

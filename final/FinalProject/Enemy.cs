@@ -1,6 +1,7 @@
 class Enemy : Character
 {
     private int _xpReward;
+    private bool _isDead = false;
     public Enemy(int lvl, int baseHP, int baseAttack, int baseDefense, string name) : base(lvl, baseHP, baseAttack, baseDefense, name)
     {
         
@@ -24,6 +25,16 @@ class Enemy : Character
         int xpReward = (int)Math.Ceiling(10 + (lvl * 1.75));
         
         SetXpReward(xpReward);
+    }
+
+    public void SetIsDead(bool state)
+    {
+        _isDead = state;
+    }
+
+    public bool GetIsDead()
+    {
+        return _isDead;
     }
 
     // public override void Die()

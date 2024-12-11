@@ -1,3 +1,5 @@
+using FinalProject.GameSystems;
+
 abstract class Character
 {
     private LevelSystem _levelSystem = new();

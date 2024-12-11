@@ -1,3 +1,5 @@
+using FinalProject.GameSystems;
+
 class Game
 {
     private bool _running;
@@ -9,9 +11,10 @@ class Game
 
     public void RunGame()
     {
-        Menu();
         while (_running)
         {
+            Console.Clear();
+            Menu();
             ProcessInput();
         }
     }
@@ -47,14 +50,17 @@ class Game
         Console.Clear();
 
         RoomSystem roomSystem = new();
-        Console.Write("What is your name? ");
-        string playerName = Console.ReadLine();
+        roomSystem.GenRooms(5);
+
+        string playerName = DialogueSystem.InputBox("What is your name? ");
 
         Player player = new(0, 1, 999, 1, 5, playerName);
-        
-        player.SetName(playerName);
 
-        roomSystem.GenRooms(5);
+        Console.Clear();
+
+        DialogueSystem.DialogueBox("Your journey begins. (Enter)");
+
+        Console.Clear();
 
         roomSystem.Dungeon(player);
 
