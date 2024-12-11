@@ -21,7 +21,7 @@ class Enemy : Character
     {
         base.CalcStats();
 
-        int lvl = GetLvlSystem().GetLvl();
+        int lvl = GetLvl();
         int xpReward = (int)Math.Ceiling(10 + (lvl * 1.75));
         
         SetXpReward(xpReward);
@@ -36,9 +36,4 @@ class Enemy : Character
     {
         return _isDead;
     }
-
-    // public override void Die()
-    // {
-    //     // throw new NotImplementedException();
-    // }
 }

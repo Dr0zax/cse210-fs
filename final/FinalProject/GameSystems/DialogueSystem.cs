@@ -4,7 +4,7 @@ namespace FinalProject.GameSystems
     {
         public static void DialogueBox(string message)
         {
-            Console.Write(message);
+            Console.Write(message + " (Enter)");
             Console.ReadLine();
         }
 

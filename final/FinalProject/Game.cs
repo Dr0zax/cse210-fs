@@ -3,6 +3,7 @@ using FinalProject.GameSystems;
 class Game
 {
     private bool _running;
+    private Player player;
 
     public Game()
     {
@@ -21,58 +22,86 @@ class Game
 
     private void ProcessInput()
     {
+        int menuChoice = 0;
+
         try
         {
-            int choice = int.Parse(Console.ReadLine());
-            switch (choice)
-            {
-                case 1:
-                    NewGame();
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    _running = false;
-                    break;
-                default:
-                    Console.WriteLine("Invalid");
-                    break;
-            }
+            menuChoice = int.Parse(DialogueSystem.InputBox(""));
         }
         catch (System.FormatException)
         {
-            Console.WriteLine("Invalid");
+            DialogueSystem.DialogueBox("Invalid Option");
+        }
+
+        switch (menuChoice)
+        {
+            case 1:
+                StartGame(new(0, 1, 25, 5, 5, ""), true);
+                break;
+            case 2:
+                if (player != null)
+                {
+                    StartGame(player, false);
+                }
+                else 
+                {
+                    DialogueSystem.DialogueBox("No current save data.");
+                }
+                break;
+            case 3:
+                string fileName = DialogueSystem.InputBox("What is the name of the file?");
+                player = FileSystem.Load(fileName);
+                break;
+            case 4:
+                fileName = DialogueSystem.InputBox("What is the name of the file?");
+                FileSystem.Save(fileName);
+                break;
+            case 5:
+                _running = false;
+                break;
+            default:
+                Console.WriteLine("Invalid Option");
+                break;
         }
     }
 
-    private void NewGame()
+    private void StartGame(Player playerData, bool newGame)
     {
+        Random random = new();
+        player = playerData;
+
         Console.Clear();
 
         RoomSystem roomSystem = new();
-        roomSystem.GenRooms(5);
+        roomSystem.GenRooms(random.Next(3, 10));
 
-        string playerName = DialogueSystem.InputBox("What is your name? ");
-
-        Player player = new(0, 1, 999, 1, 5, playerName);
-
-        Console.Clear();
-
-        DialogueSystem.DialogueBox("Your journey begins. (Enter)");
+        if (newGame)
+        {
+            string playerName = DialogueSystem.InputBox("What is your name? ");
+            player.SetName(playerName);
+            Console.Clear();
+            DialogueSystem.DialogueBox("Your journey begins.");
+        }
 
         Console.Clear();
 
         roomSystem.Dungeon(player);
-
-        return;
     }
 
     private void Menu()
     {
-        Console.WriteLine("MENU: ");
-        Console.WriteLine("1. Start");
-        Console.WriteLine("2. Load");
-        Console.WriteLine("3. Quit");
-        Console.Write("> ");
+        string[] menu = [
+            "MENU",
+            "1. Start New Run",
+            "2. Continue",
+            "3. Load",
+            "4. Save",
+            "5. Quit ",
+        ];
+
+        foreach (string line in menu)
+        {
+            Console.WriteLine(line);
+        }
     }
 }

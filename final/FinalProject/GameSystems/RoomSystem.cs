@@ -1,7 +1,5 @@
 namespace FinalProject.GameSystems
 {
-
-
     class RoomSystem
     {
         private List<Room> _rooms = new();
@@ -33,14 +31,12 @@ namespace FinalProject.GameSystems
 
         public void Dungeon(Player player)
         {
-            BattleSystem battleSystem = new();
-
             //puts the player in the first room
             Room currentRoom = _rooms[0];
 
-            bool alive = true;
+            bool currentRun = true;
 
-            while (alive)
+            while (currentRun)
             {
                 Console.Clear();
                 player.SetLocation(currentRoom);
@@ -48,18 +44,28 @@ namespace FinalProject.GameSystems
 
                 foreach (Enemy enemy in currentRoom.GetEnemies())
                 {
-                    battleSystem.Battle(player, enemy);
+                    BattleSystem.Battle(player, enemy, player);
                 }
 
                 Console.ReadLine();
 
-                currentRoom = AdvanceRoom(currentRoom);
+                if (currentRoom.GetNextRoom() != null)
+                {
+                    currentRoom = AdvanceRoom(currentRoom);
+                }
+                else
+                {
+                    Console.Clear();
+                    DialogueSystem.DialogueBox("You beat the dungeon!");
+                    currentRun = false;
+                }
+
             }
         }
 
         public void Map(Room currentRoom)
         {
-            string map = "";
+            string map = "ROOMS: ";
 
             foreach (Room room in _rooms)
             {
@@ -100,6 +106,7 @@ namespace FinalProject.GameSystems
 
             if (isClear)
             {
+                DialogueSystem.DialogueBox("Entering Next Room");
                 return nextRoom;
             }
             else

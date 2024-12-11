@@ -2,32 +2,38 @@ namespace FinalProject.GameSystems
 {
     class BattleSystem
     {
-        private Character _turn;
-
-        public void Battle(Player player, Enemy enemy)
+        public static void Battle(Player player, Enemy enemy, Character turn)
         {
-            Console.WriteLine("\nBATTLE START!");
+            DialogueSystem.DialogueBox("\nBATTLE START!");
             bool battle = true;
-            _turn = player;
 
-            // Console.Clear();
             while (battle)
             {
-                // Console.Clear();
-                Console.WriteLine($"Current Turn: {_turn}");
+                Console.Clear();
+                Console.WriteLine($"Current Turn: {turn}");
                 DisplayStats(player, enemy);
 
-                if (_turn == player)
+                if (turn == player)
                 {
+                    int choice = 0;
+
                     Console.WriteLine("\nCHOICES: ");
                     Console.WriteLine("1. Attack");
-                    Console.Write(">");
-                    int choice = int.Parse(Console.ReadLine());
+
+                    try
+                    {
+                        choice = int.Parse(DialogueSystem.InputBox(""));
+                    }
+                    catch (System.FormatException)
+                    {
+                        DialogueSystem.DialogueBox("Invalid Option");
+                    }
 
                     switch (choice)
                     {
                         case 1:
                             player.Attack(enemy);
+                            turn = AdvanceTurn(player, enemy, turn);
                             break;
                         default:
                             break;
@@ -36,6 +42,7 @@ namespace FinalProject.GameSystems
                 else
                 {
                     enemy.Attack(player);
+                    turn = AdvanceTurn(player, enemy, turn);
                 }
 
                 if (player.GetHP() == 0)
@@ -45,43 +52,43 @@ namespace FinalProject.GameSystems
                 }
                 else if (enemy.GetHP() == 0)
                 {
+                    Console.Clear();
                     Console.WriteLine("PLAYER WINS");
                     enemy.SetIsDead(true);
                     int reward = enemy.GetXpReward();
-                    player.GetLvlSystem().AddXP(reward);
+                    player.AddXP(reward);
                     battle = false;
-                }
-                else
-                {
-                    AdvanceTurn(player, enemy);
                 }
             }
         }
 
-        public void AdvanceTurn(Player player, Enemy enemy)
+        private static Character AdvanceTurn(Player player, Enemy enemy, Character turn)
         {
-            if (_turn == player)
+            if (turn == player)
             {
-                _turn = enemy;
+                turn = enemy;
             }
             else
             {
-                _turn = player;
+                turn = player;
             }
+            return turn;
         }
 
-        public void DisplayStats(Player player, Enemy enemy)
+        private static void DisplayStats(Player player, Enemy enemy)
         {
             string playerName = player.GetName();
             int playerHP = player.GetHP();
-            int playerLvl = player.GetLvlSystem().GetLvl();
-            Weapon PlayerEquipedWeapon = player.GetEquipedWeapon();
+            int playerMaxHP = player.GetMaxHP();
+            int playerLvl = player.GetLvl();
+            // Weapon PlayerEquipedWeapon = player.GetEquipedWeapon();
 
             string enemyName = enemy.GetName();
             int enemyHP = enemy.GetHP();
-            int enemyLvl = enemy.GetLvlSystem().GetLvl();
+            int enemyMaxHP = enemy.GetMaxHP();
+            int enemyLvl = enemy.GetLvl();
 
-            string statsString = $"| lvl {playerLvl} {playerName} | HP: {playerHP} |\n| lvl {enemyLvl} {enemyName} | HP: {enemyHP} |";
+            string statsString = $"| lvl {playerLvl} {playerName} | HP: {playerHP}/{playerMaxHP} |\n| lvl {enemyLvl} {enemyName} | HP: {enemyHP} |";
             Console.WriteLine(statsString);
         }
     }

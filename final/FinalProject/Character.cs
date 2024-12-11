@@ -2,11 +2,12 @@ using FinalProject.GameSystems;
 
 abstract class Character
 {
-    private LevelSystem _levelSystem = new();
+    private int _lvl;
 
     private string _name;
     //STATS
     private int _hp;
+    private int _maxHP;
     private int _attack;
     private int _defense;
 
@@ -15,24 +16,9 @@ abstract class Character
     private int _baseAttack;
     private int _baseDefense;
 
-    //for creating a player
-    public Character(int xp, int lvl, int baseHP, int baseAttack, int baseDefense, string name)
-    {
-        _levelSystem.SetLevel(lvl);
-        _levelSystem.SetXP(xp);
-
-        _baseHP = baseHP;
-        _baseAttack = baseAttack;
-        _baseDefense = baseDefense;
-        _name = name;
-
-        CalcStats();
-    }
-
-    //for creating and enemy
     public Character(int lvl, int baseHP, int baseAttack, int baseDefense, string name)
     {
-        _levelSystem.SetLevel(lvl);
+        _lvl = lvl;
 
         _baseHP = baseHP;
         _baseAttack = baseAttack;
@@ -40,6 +26,7 @@ abstract class Character
         _name = name;
 
         CalcStats();
+        _hp = (int)Math.Floor(baseHP + (lvl * 1.5));
     }
 
     public int GetHP()
@@ -112,9 +99,24 @@ abstract class Character
         _name = name;
     }
 
-    public LevelSystem GetLvlSystem()
+    public void SetLvl(int lvl)
     {
-        return _levelSystem;
+        _lvl = lvl; 
+    }
+
+    public int GetLvl()
+    {
+        return _lvl; 
+    }
+
+    public void SetMaxHP(int hp)
+    {
+        _maxHP = hp; 
+    }
+
+    public int GetMaxHP()
+    {
+        return _maxHP; 
     }
 
     public void TakeDamage(int damage)
@@ -137,24 +139,22 @@ abstract class Character
     {
         int damage = GetAttack();
         attacked.TakeDamage(damage);
-        Console.WriteLine($"\n{attacked.GetName()} took {damage} damage!\n");
+        DialogueSystem.DialogueBox($"\n{attacked.GetName()} took {damage} damage!");
     }
 
     public virtual void CalcStats()
     {
-        int lvl = _levelSystem.GetLvl();
+        int lvl = GetLvl();
         int baseAttack = GetBaseAttack();
         int baseDefense = GetBaseDefense();
         int baseHP = GetBaseHP();
 
-        int hp = (int)Math.Floor(baseHP + (lvl * 1.5));
         int attack = (int)Math.Ceiling(baseAttack + (lvl * 1.75));
         int defense = (int)Math.Floor(baseDefense + (lvl * 1.5));
+        int maxHP = (int)Math.Floor(baseHP + (lvl * 1.5));
 
         SetAttack(attack);
-        SetHP(hp);
         SetDefense(defense);
+        SetMaxHP(maxHP);
     }
-
-    // public abstract void Die();
 }
