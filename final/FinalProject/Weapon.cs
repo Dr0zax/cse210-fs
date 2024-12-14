@@ -3,17 +3,16 @@ class Weapon : Item
     private int _atk;
     private double _critModifier = 1.5;
 
-    public Weapon(string name, string description, int size, int attack) : base(name, description, size)
+    public Weapon(string name, string description, int attack) : base(name, description)
     {
         _atk = attack;
     }
-
+    
     public override void Display()
     {
         string name = GetName();
         string description = GetDescription();
-        int size = GetSize();
-        string formatedString = $"{name}: {description}\nattack: {_atk}\nsize: {size}";
+        string formatedString = $"{name}: {description}\nattack: {_atk}";
 
         Console.WriteLine(formatedString);
     }
@@ -29,5 +28,12 @@ class Weapon : Item
         }
 
         return attackAmount;
+    }
+
+    public override string Serialize()
+    {
+        string name = GetName();
+        string description = GetDescription();
+        return $"{this}:{name}:{description}:{_atk}";
     }
 }

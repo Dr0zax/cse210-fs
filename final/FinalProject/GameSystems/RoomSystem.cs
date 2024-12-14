@@ -2,77 +2,40 @@ namespace FinalProject.GameSystems
 {
     class RoomSystem
     {
-        private List<Room> _rooms = new();
-
-        public void GenRooms(int dungeonSize)
+        public static List<Room> GenRooms(int dungeonSize)
         {
+            List<Room> rooms = new();
+
             for (int i = 0; i < dungeonSize; i++)
             {
                 Room room = new(i);
 
                 if (i != 0)
                 {
-                    room.SetPreviousRoom(_rooms[i - 1]);
+                    room.SetPreviousRoom(rooms[i - 1]);
                 }
 
                 if (i != dungeonSize && i != 0)
                 {
-                    _rooms[i - 1].SetNextRoom(room);
+                    rooms[i - 1].SetNextRoom(room);
                 }
 
-                _rooms.Add(room);
+                rooms.Add(room);
             }
+
+            return rooms;
         }
 
-        public void ClearRooms()
-        {
-            _rooms.Clear();
-        }
-
-        public void Dungeon(Player player)
-        {
-            //puts the player in the first room
-            Room currentRoom = _rooms[0];
-
-            bool currentRun = true;
-
-            while (currentRun)
-            {
-                Console.Clear();
-                player.SetLocation(currentRoom);
-                Map(currentRoom);
-
-                foreach (Enemy enemy in currentRoom.GetEnemies())
-                {
-                    BattleSystem.Battle(player, enemy, player);
-                }
-
-                Console.ReadLine();
-
-                if (currentRoom.GetNextRoom() != null)
-                {
-                    currentRoom = AdvanceRoom(currentRoom);
-                }
-                else
-                {
-                    Console.Clear();
-                    DialogueSystem.DialogueBox("You beat the dungeon!");
-                    currentRun = false;
-                }
-
-            }
-        }
-
-        public void Map(Room currentRoom)
+        public static void DisplayMap(List<Room> rooms, Room currentRoom)
         {
             string map = "ROOMS: ";
 
-            foreach (Room room in _rooms)
+            foreach (Room room in rooms)
             {
                 int roomNum = room.GetRoomNum() + 1;
                 if (room == currentRoom)
                 {
-                    if (roomNum != _rooms.Count)
+                    if (roomNum != rooms.Count)
                     {
                         map += "P--";
                     }
@@ -83,7 +46,7 @@ namespace FinalProject.GameSystems
                 }
                 else
                 {
-                    if (roomNum != _rooms.Count)
+                    if (roomNum != rooms.Count)
                     {
                         map += $"{roomNum}--";
                     }
@@ -98,7 +61,7 @@ namespace FinalProject.GameSystems
             Console.WriteLine(map);
         }
 
-        public Room AdvanceRoom(Room currentRoom)
+        public static Room AdvanceRoom(Room currentRoom)
         {
             Room nextRoom = currentRoom.GetNextRoom();
 

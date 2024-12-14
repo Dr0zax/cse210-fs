@@ -3,11 +3,12 @@ using FinalProject.GameSystems;
 class Player : Character
 {
     private Inventory _inventory = new();
+
     private Weapon _equipedWeapon;
 
     private int _xp;
     private int _nextLvl;
-    
+
     private double _critChance;
     private int _baseCritChance = 5;
     private Room _location;
@@ -53,8 +54,14 @@ class Player : Character
         return _equipedWeapon;
     }
 
+    public void SetEquipedWeapon(Weapon weapon)
+    {
+        _equipedWeapon = weapon;
+    }
+
     public void AddXP(int xp)
     {
+        DialogueSystem.DialogueBox($"{GetName()} has earned {xp} XP!");
         LevelSystem.AddXP(this, xp);
     }
 
@@ -68,10 +75,21 @@ class Player : Character
         return _xp;
     }
 
-    public void SetEquipedWeapon(Weapon weapon)
+    public void SetInventory(List<Item> items)
     {
-        _equipedWeapon = weapon;
+        _inventory.SetInventory(items);
     }
+
+    public Inventory GetInventory()
+    {
+        return _inventory;
+    }
+
+    public List<Item> GetInventoryItems()
+    {
+        return _inventory.GetInventory();
+    }
+
 
     public void LvlUp()
     {
@@ -89,7 +107,7 @@ class Player : Character
 
         int lvl = GetLvl();
         int baseCritChance = GetBaseCritChance();
-        double critChance = Math.Min((baseCritChance + (lvl * 0.5))/100, 1);
+        double critChance = Math.Min((baseCritChance + (lvl * 0.5)) / 100, 1);
 
         SetCritChance(critChance);
     }

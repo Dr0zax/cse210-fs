@@ -2,13 +2,10 @@ abstract class Item
 {
     private string _name;
     private string _description;
-    private int _size;
-
-    public Item(string name, string description, int size)
+    public Item(string name, string description)
     {
         _name = name;
         _description = description;
-        _size = size;
     }
 
     public string GetName()
@@ -31,15 +28,24 @@ abstract class Item
         _description = description;
     }
 
-    public int GetSize()
+    public string GetQuantity()
     {
-        return _size;
+        return _description;
     }
 
-    public void SetSize(int size)
+    public void SetQuantity(string description)
     {
-        _size = size;
+        _description = description;
     }
 
-    public abstract void Display();
+    public virtual void Display() 
+    {
+        string name = GetName();
+        string description = GetDescription();
+        string formatedString = $"{name}: {description}";
+
+        Console.WriteLine(formatedString);
+    }
+
+    public abstract string Serialize();
 }

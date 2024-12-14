@@ -16,6 +16,7 @@ abstract class Character
     private int _baseAttack;
     private int _baseDefense;
 
+
     public Character(int lvl, int baseHP, int baseAttack, int baseDefense, string name)
     {
         _lvl = lvl;
@@ -36,7 +37,7 @@ abstract class Character
 
     public void SetHP(int hp)
     {
-        _hp = hp;
+        _hp = Math.Clamp(hp, 0, _maxHP);
     }
 
     public int GetAttack()
@@ -137,7 +138,18 @@ abstract class Character
     }
     public void Attack(Character attacked)
     {
-        int damage = GetAttack();
+        int damage;
+
+        if (this is Player player)
+        {
+            int weaponDamage = player.GetEquipedWeapon().GetAttack(player.GetCritChance());
+            damage = player.GetAttack() + weaponDamage;
+        } 
+        else
+        {
+            damage = GetAttack();
+        }
+
         attacked.TakeDamage(damage);
         DialogueSystem.DialogueBox($"\n{attacked.GetName()} took {damage} damage!");
     }
@@ -156,5 +168,15 @@ abstract class Character
         SetAttack(attack);
         SetDefense(defense);
         SetMaxHP(maxHP);
+    }
+
+    public void Display()
+    {
+        Console.WriteLine($"Lvl: {_lvl} | {_name}");
+    }
+
+    public override string ToString()
+    {
+        return $"{_name}";
     }
 }

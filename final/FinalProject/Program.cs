@@ -1,14 +1,17 @@
+using FinalProject.GameSystems;
+
 class Program
 {
     static void Main(string[] args)
     {
-        Console.Clear();
-
-        TitleScreen();
-
         Game game = new();
 
-        game.RunGame();
+        Console.Clear();
+        TitleScreen();
+
+        game.Run();
+
+        DialogueSystem.DialogueBox("Thank You For Playing!");
     }
 
     static void TitleScreen()
@@ -16,7 +19,7 @@ class Program
         int consoleSizeWidth = Console.WindowWidth;
         int consoleSizeHeight = Console.WindowHeight;
 
-        string[] title = [
+        string[] titleLarge = [
             "  _____    _____     _____     _______   _       _                 ",
             " |  __ \\  |  __ \\   / ____|   |__   __| | |     (_)                ",
             " | |__) | | |__) | | |  __       | |    | |__    _   _ __     __ _ ",
@@ -31,16 +34,34 @@ class Program
             "Press Enter to Begin"
         ];
 
-        Console.SetCursorPosition(Console.CursorLeft, (consoleSizeHeight - title.Length) / 2);
+        string[] titleSmall = [
+            "Rpg Thing",
+            "",
+            "Andrew Jeppesen",
+            "",
+            "Press Enter to Begin"
+        ];
 
-        foreach (string line in title)
+        try {
+            Console.SetCursorPosition(Console.CursorLeft, (consoleSizeHeight - titleLarge.Length) / 2);
+
+            foreach (string line in titleLarge)
+            {
+                Console.SetCursorPosition((consoleSizeWidth - line.Length) / 2, Console.CursorTop);
+                Console.WriteLine(line);
+            }
+        }
+        catch (ArgumentOutOfRangeException)
         {
-            Console.SetCursorPosition((consoleSizeWidth - line.Length) / 2, Console.CursorTop);
-            Console.WriteLine(line);
+            foreach (string line in titleSmall)
+            {
+                Console.SetCursorPosition((consoleSizeWidth - line.Length) / 2, Console.CursorTop);
+                Console.WriteLine(line);
+            }
         }
 
         Console.SetCursorPosition(0, consoleSizeHeight - 1);
-        Console.ReadLine();
+        DialogueSystem.DialogueBox("");
         Console.Clear();
     }
 

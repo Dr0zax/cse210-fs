@@ -4,14 +4,24 @@ namespace FinalProject.GameSystems
     {
         public static void DialogueBox(string message)
         {
-            Console.Write(message + " (Enter)");
+            if (message == "")
+            {
+                Console.Write("(Enter)");
+            }
+            else
+            {
+                Console.Write(message + " (Enter)");
+            }
             Console.ReadLine();
         }
 
         public static string InputBox(string message)
         {
             Console.Write(message + "> ");
-            return Console.ReadLine();
+           
+            string input = Console.ReadLine();
+          
+            return input;
         }
     }
 }

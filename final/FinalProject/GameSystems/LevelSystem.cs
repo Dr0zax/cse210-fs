@@ -4,7 +4,7 @@ namespace FinalProject.GameSystems
     {
         public static int NextLvl(int level)
         {
-            return (int)Math.Round(0.01 * Math.Pow(level, 3) + 0.02 * Math.Pow(level, 2) + level * 2);
+            return (int)Math.Round(0.05 * Math.Pow(level, 3) + 0.1 * Math.Pow(level, 2) + level * 10);
         }
 
         public static void AddXP(Player player, int addedXP)
@@ -17,6 +17,7 @@ namespace FinalProject.GameSystems
             {
                 int leftover = currentXP + addedXP - nextLvl;
                 player.LvlUp();
+                DialogueSystem.DialogueBox($"{player.GetName()} has leveled up to level {player.GetLvl()}!");
                 AddXP(player, leftover);
             }
 

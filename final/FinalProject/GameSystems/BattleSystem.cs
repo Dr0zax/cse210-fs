@@ -19,6 +19,7 @@ namespace FinalProject.GameSystems
 
                     Console.WriteLine("\nCHOICES: ");
                     Console.WriteLine("1. Attack");
+                    Console.WriteLine("2. Heal");
 
                     try
                     {
@@ -35,6 +36,24 @@ namespace FinalProject.GameSystems
                             player.Attack(enemy);
                             turn = AdvanceTurn(player, enemy, turn);
                             break;
+                        case 2:
+                            Inventory inventory = player.GetInventory();
+                            List<HealingItem> healingItems = inventory.GetHealingItems();
+
+                            if (healingItems.Count == 0)
+                            {
+                                DialogueSystem.DialogueBox("You dont have any healing items in your inventory.");
+                            }
+                            else if (player.GetHP() == player.GetMaxHP())
+                            {
+                                DialogueSystem.DialogueBox("Your health is already full");
+                            }
+                            else
+                            {
+                                healingItems[0].Use(player);
+                                healingItems.Remove(healingItems[0]);
+                            }
+                            break;
                         default:
                             break;
                     }
@@ -47,16 +66,16 @@ namespace FinalProject.GameSystems
 
                 if (player.GetHP() == 0)
                 {
-                    //Player Loses
                     battle = false;
                 }
                 else if (enemy.GetHP() == 0)
                 {
                     Console.Clear();
-                    Console.WriteLine("PLAYER WINS");
-                    enemy.SetIsDead(true);
+                    DialogueSystem.DialogueBox("Player Wins!");
+
                     int reward = enemy.GetXpReward();
                     player.AddXP(reward);
+
                     battle = false;
                 }
             }
